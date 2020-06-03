@@ -10,9 +10,7 @@ app.listen(PORT, () => {
   console.info(`✅ Listening at ${PORT}`);
 });
 
-app.get('/', (req, res) => res.send('Hello, world!'));
+// AWS health check
+app.get('/ping', (req, res) => res.send('Pong!'));
 
-app.get('/hello/:name', (req, res, next) => {
-  const { name } = req.params;
-  res.send(`Hello ${name} from express`);
-});
+app.get('/', (req, res) => res.send('Hello, world!'));
