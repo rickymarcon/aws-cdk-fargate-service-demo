@@ -34,6 +34,8 @@ export class ECSClusterStack extends cdk.Stack {
       {
         cluster,
         desiredCount: 1,
+        cpu: 256, // Default
+        memoryLimitMiB: 512, // Default
         taskImageOptions: {
           image: ecs.ContainerImage.fromDockerImageAsset(asset),
         },
