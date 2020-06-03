@@ -1,6 +1,6 @@
 import { expect as expectCDK, haveResource } from '@aws-cdk/assert';
 import * as cdk from '@aws-cdk/core';
-import { EcsClusterStack } from '../lib/ecs-cluster-stack';
+import { ECSClusterStack } from '../lib/ecs-cluster-stack';
 
 describe('CDK ECS cluster', () => {
   let app: cdk.App;
@@ -8,7 +8,7 @@ describe('CDK ECS cluster', () => {
 
   beforeAll(() => {
     app = new cdk.App();
-    stack = new EcsClusterStack(app, 'EcsClusterStack', {
+    stack = new ECSClusterStack(app, 'ECSClusterStack', {
       serviceId: 'my-service',
     });
   });

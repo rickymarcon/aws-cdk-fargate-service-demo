@@ -5,12 +5,12 @@ import * as ecsPatterns from '@aws-cdk/aws-ecs-patterns';
 import * as ecr from '@aws-cdk/aws-ecr-assets';
 import * as path from 'path';
 
-interface EcsClusterStackProps extends cdk.StackProps {
+interface ECSClusterStackProps extends cdk.StackProps {
   serviceId: string;
 }
 
-export class EcsClusterStack extends cdk.Stack {
-  constructor(scope: cdk.Construct, id: string, props: EcsClusterStackProps) {
+export class ECSClusterStack extends cdk.Stack {
+  constructor(scope: cdk.Construct, id: string, props: ECSClusterStackProps) {
     super(scope, id, props);
 
     const imageDirectory = path.resolve(`../${props.serviceId}`);
