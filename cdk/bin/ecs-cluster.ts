@@ -4,4 +4,6 @@ import * as cdk from '@aws-cdk/core';
 import { EcsClusterStack } from '../lib/ecs-cluster-stack';
 
 const app = new cdk.App();
-new EcsClusterStack(app, 'EcsClusterStack');
+new EcsClusterStack(app, 'EcsClusterStack', {
+  serviceId: 'my-service',
+});

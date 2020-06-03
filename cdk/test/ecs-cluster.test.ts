@@ -8,7 +8,9 @@ describe('CDK ECS cluster', () => {
 
   beforeAll(() => {
     app = new cdk.App();
-    stack = new EcsClusterStack(app, 'EcsClusterStack');
+    stack = new EcsClusterStack(app, 'EcsClusterStack', {
+      serviceId: 'my-service',
+    });
   });
 
   test('creates a VPC with cidr 10.0.0.0/16', () => {
