@@ -1,10 +1,19 @@
-FROM node:12-alpine
+FROM node:14-alpine
 
-WORKDIR /app
+# Create app directory
+WORKDIR /usr/src/app
 
+# Install app dependencies
 COPY package*.json tsconfig.json ./
-COPY src src
 
 RUN npm ci
+
+# Bundle app source
+COPY src src
+
+# Build service
+RUN npm run build
+
+EXPOSE 80
 
 CMD ["npm", "start"]
