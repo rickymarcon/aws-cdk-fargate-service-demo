@@ -22,7 +22,7 @@ export class EcsClusterStack extends cdk.Stack {
       {
         cluster,
         cpu: 512, // Default is 256
-        desiredCount: 6,
+        desiredCount: 1,
         taskImageOptions: {
           image: ecs.ContainerImage.fromRegistry('amazon/amazon-ecs-sample'),
         },
