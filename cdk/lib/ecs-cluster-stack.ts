@@ -33,7 +33,7 @@ export class EcsClusterStack extends cdk.Stack {
       'NamedFargateService',
       {
         cluster,
-        desiredCount: 1,
+        desiredCount: 2,
         cpu: 256, // default
         memoryLimitMiB: 512, // default
         taskImageOptions: {
