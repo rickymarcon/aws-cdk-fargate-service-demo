@@ -13,4 +13,6 @@ app.listen(PORT, () => {
 // AWS health check
 app.get('/ping', (req, res) => res.send('Pong!'));
 
+app.get('/version', (req, res) => res.send(pkg.version));
+
 app.get('/', (req, res) => res.send('Hello, world!'));
