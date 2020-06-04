@@ -35,10 +35,12 @@ export class EcsClusterStack extends cdk.Stack {
         cluster,
         serviceName: 'My Service',
         desiredCount: 1,
-        cpu: 256, // Default
-        memoryLimitMiB: 512, // Default
+        cpu: 256, // default
+        memoryLimitMiB: 512, // default
         taskImageOptions: {
           image: ecs.ContainerImage.fromDockerImageAsset(asset),
+          enableLogging: true, // default
+          containerPort: 80, // default
         },
         publicLoadBalancer: true,
       }
