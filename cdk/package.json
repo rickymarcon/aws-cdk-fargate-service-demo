@@ -11,21 +11,27 @@
     "cdk": "cdk"
   },
   "devDependencies": {
-    "@aws-cdk/assert": "1.42.1",
-    "@aws-cdk/aws-ec2": "^1.42.1",
-    "@aws-cdk/aws-ecr-assets": "^1.42.1",
-    "@aws-cdk/aws-ecs": "^1.42.1",
-    "@aws-cdk/aws-ecs-patterns": "^1.42.1",
+    "@aws-cdk/assert": "^1.43.0",
+    "@aws-cdk/aws-codebuild": "^1.43.0",
+    "@aws-cdk/aws-codecommit": "^1.43.0",
+    "@aws-cdk/aws-codedeploy": "^1.43.0",
+    "@aws-cdk/aws-codepipeline": "^1.43.0",
+    "@aws-cdk/aws-codepipeline-actions": "^1.43.0",
+    "@aws-cdk/aws-ec2": "^1.43.0",
+    "@aws-cdk/aws-ecr-assets": "^1.43.0",
+    "@aws-cdk/aws-ecs": "^1.43.0",
+    "@aws-cdk/aws-ecs-patterns": "^1.43.0",
     "@types/jest": "^25.2.1",
-    "@types/node": "^10.17.5",
-    "aws-cdk": "1.42.1",
+    "@types/node": "^10.17.24",
+    "aws-cdk": "^1.43.0",
+    "dotenv": "^8.2.0",
     "jest": "^25.5.0",
     "ts-jest": "^25.3.1",
     "ts-node": "^8.1.0",
     "typescript": "~3.7.2"
   },
   "dependencies": {
-    "@aws-cdk/core": "1.42.1",
+    "@aws-cdk/core": "^1.43.0",
     "source-map-support": "^0.5.16"
   },
   "directories": {
