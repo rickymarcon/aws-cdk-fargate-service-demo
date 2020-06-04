@@ -5,12 +5,12 @@ import * as ecsPatterns from '@aws-cdk/aws-ecs-patterns';
 import * as ecr from '@aws-cdk/aws-ecr-assets';
 import * as path from 'path';
 
-interface ECSClusterStackProps extends cdk.StackProps {
+interface EcsClusterStackProps extends cdk.StackProps {
   serviceId: string;
 }
 
-export class ECSClusterStack extends cdk.Stack {
-  constructor(scope: cdk.Construct, id: string, props: ECSClusterStackProps) {
+export class EcsClusterStack extends cdk.Stack {
+  constructor(scope: cdk.Construct, id: string, props: EcsClusterStackProps) {
     super(scope, id, props);
 
     const imageDirectory = path.resolve(`../${props.serviceId}`);
@@ -20,7 +20,7 @@ export class ECSClusterStack extends cdk.Stack {
     });
 
     const vpc = new ec2.Vpc(this, 'NamedVPC', {
-      maxAzs: 3,
+      maxAzs: 2,
     });
 
     const cluster = new ecs.Cluster(this, 'NamedCluster', {
@@ -28,11 +28,12 @@ export class ECSClusterStack extends cdk.Stack {
     });
 
     // Create a load-balanced Fargate service and make it public
-    new ecsPatterns.ApplicationLoadBalancedFargateService(
+    const fargateService = new ecsPatterns.ApplicationLoadBalancedFargateService(
       this,
       'NamedFargateService',
       {
         cluster,
+        serviceName: 'My Service',
         desiredCount: 1,
         cpu: 256, // Default
         memoryLimitMiB: 512, // Default
