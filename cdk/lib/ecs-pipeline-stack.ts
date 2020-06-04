@@ -50,7 +50,7 @@ export class EcsPipelineStack extends cdk.Stack {
           },
         },
         artifacts: {
-          'base-directory': 'cdk.out',
+          'base-directory': 'cdk/cdk.out',
           files: ['EcsClusterStack.template.json'],
         },
       }),
@@ -76,14 +76,15 @@ export class EcsPipelineStack extends cdk.Stack {
           version: 0.2,
           phases: {
             install: {
-              commands: ['cd service', 'npm ci'],
+              commands: ['cd my-service', 'npm ci'],
             },
             build: {
               commands: ['npm run build'],
             },
-            artifacts: {
-              files: ['dist/**/*, node-modules/**/*'],
-            },
+          },
+          artifacts: {
+            'base-directory': 'my-service',
+            files: ['dist/**/*, node-modules/**/*'],
           },
         }),
         environment: {
