@@ -1,4 +1,5 @@
 import * as cdk from '@aws-cdk/core';
+import * as iam from '@aws-cdk/aws-iam';
 import * as codepipeline from '@aws-cdk/aws-codepipeline';
 import * as codebuild from '@aws-cdk/aws-codebuild';
 import * as codepipelineActions from '@aws-cdk/aws-codepipeline-actions';
@@ -34,8 +35,6 @@ export class EcsPipelineStack extends cdk.Stack {
 
     // Build stage
     const buildStage = pipeline.addStage({ stageName: 'Build' });
-
-    // Step 1: Build CDK
     const cdkBuildOuput = new codepipeline.Artifact('CdkArtifact');
     const cdkProject = new codebuild.PipelineProject(this, 'CdkProject', {
       projectName: 'CDK_Project',
@@ -46,7 +45,7 @@ export class EcsPipelineStack extends cdk.Stack {
             commands: ['cd cdk', 'npm ci'],
           },
           build: {
-            commands: ['npm run build', 'npx cdk synth'],
+            commands: ['npm run build', 'npm run cdk synth'],
           },
         },
         artifacts: {
@@ -56,6 +55,7 @@ export class EcsPipelineStack extends cdk.Stack {
       }),
       environment: {
         buildImage: codebuild.LinuxBuildImage.STANDARD_2_0,
+        privileged: true,
       },
     });
     const cdkBuildAction = new codepipelineActions.CodeBuildAction({
@@ -66,50 +66,49 @@ export class EcsPipelineStack extends cdk.Stack {
     });
     buildStage.addAction(cdkBuildAction);
 
-    // Step 2: Build Microservice
-    // const serviceProject = new codebuild.PipelineProject(
-    //   this,
-    //   'ServiceProject',
-    //   {
-    //     projectName: 'Service_Project',
-    //     buildSpec: codebuild.BuildSpec.fromObject({
-    //       version: 0.2,
-    //       phases: {
-    //         install: {
-    //           commands: ['cd my-service', 'npm ci'],
-    //         },
-    //         build: {
-    //           commands: ['npm run build'],
-    //         },
-    //       },
-    //       artifacts: {
-    //         'base-directory': 'my-service',
-    //         files: ['dist/**/*, node-modules/**/*'],
-    //       },
-    //     }),
-    //     environment: {
-    //       buildImage: codebuild.LinuxBuildImage.STANDARD_2_0,
-    //     },
-    //   }
-    // );
-    // const serviceBuildAction = new codepipelineActions.CodeBuildAction({
-    //   actionName: 'Service_Build',
-    //   input: sourceOutput,
-    //   project: serviceProject,
-    // });
-    // buildStage.addAction(serviceBuildAction);
-
     // Deploy stage
     const deployStage = pipeline.addStage({ stageName: 'Deploy' });
-    const deployAction = new codepipelineActions.CloudFormationCreateUpdateStackAction(
+    const role = new iam.Role(this, 'MyRole', {
+      assumedBy: new iam.ServicePrincipal('codebuild.amazonaws.com'),
+    });
+    role.addToPolicy(
+      new iam.PolicyStatement({
+        resources: ['*'],
+        actions: ['*'],
+      })
+    );
+    const deployProject = new codebuild.PipelineProject(
+      this,
+      'Deploy_Project',
       {
-        actionName: 'ECS_CFN_Deploy',
-        templatePath: cdkBuildOuput.atPath('EcsClusterStack.template.json'),
-        stackName: 'EcsClusterDeploymentStack',
-        adminPermissions: true,
-        extraInputs: [sourceOutput],
+        buildSpec: codebuild.BuildSpec.fromObject({
+          version: 0.2,
+          phases: {
+            install: {
+              commands: ['cd cdk', 'npm install'],
+            },
+            build: {
+              commands: [
+                'npm run build',
+                'npm run cdk synth',
+                'npm run cdk deploy EcsClusterStack -- --require-approval never',
+              ],
+            },
+          },
+        }),
+        environment: {
+          buildImage: codebuild.LinuxBuildImage.STANDARD_2_0,
+          privileged: true,
+        },
+        role,
       }
     );
+    const deployAction = new codepipelineActions.CodeBuildAction({
+      actionName: 'ECS_CFN_Deploy',
+      input: sourceOutput,
+      project: deployProject,
+    });
+
     deployStage.addAction(deployAction);
   }
 }

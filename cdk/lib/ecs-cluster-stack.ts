@@ -2,7 +2,8 @@ import * as cdk from '@aws-cdk/core';
 import * as ec2 from '@aws-cdk/aws-ec2';
 import * as ecs from '@aws-cdk/aws-ecs';
 import * as ecsPatterns from '@aws-cdk/aws-ecs-patterns';
-import * as ecr from '@aws-cdk/aws-ecr-assets';
+import * as ecr from '@aws-cdk/aws-ecr';
+import * as ecrAssets from '@aws-cdk/aws-ecr-assets';
 import * as path from 'path';
 
 interface EcsClusterStackProps extends cdk.StackProps {
@@ -14,8 +15,7 @@ export class EcsClusterStack extends cdk.Stack {
     super(scope, id, props);
 
     const imageDirectory = path.resolve(`../${props.serviceId}`);
-
-    const asset = new ecr.DockerImageAsset(this, 'NamedBuildImage', {
+    const asset = new ecrAssets.DockerImageAsset(this, 'NamedBuildImage', {
       directory: imageDirectory,
     });
 
