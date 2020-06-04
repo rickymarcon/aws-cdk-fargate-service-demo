@@ -67,37 +67,37 @@ export class EcsPipelineStack extends cdk.Stack {
     buildStage.addAction(cdkBuildAction);
 
     // Step 2: Build Microservice
-    const serviceProject = new codebuild.PipelineProject(
-      this,
-      'ServiceProject',
-      {
-        projectName: 'Service_Project',
-        buildSpec: codebuild.BuildSpec.fromObject({
-          version: 0.2,
-          phases: {
-            install: {
-              commands: ['cd my-service', 'npm ci'],
-            },
-            build: {
-              commands: ['npm run build'],
-            },
-          },
-          artifacts: {
-            'base-directory': 'my-service',
-            files: ['dist/**/*, node-modules/**/*'],
-          },
-        }),
-        environment: {
-          buildImage: codebuild.LinuxBuildImage.STANDARD_2_0,
-        },
-      }
-    );
-    const serviceBuildAction = new codepipelineActions.CodeBuildAction({
-      actionName: 'Service_Build',
-      input: sourceOutput,
-      project: serviceProject,
-    });
-    buildStage.addAction(serviceBuildAction);
+    // const serviceProject = new codebuild.PipelineProject(
+    //   this,
+    //   'ServiceProject',
+    //   {
+    //     projectName: 'Service_Project',
+    //     buildSpec: codebuild.BuildSpec.fromObject({
+    //       version: 0.2,
+    //       phases: {
+    //         install: {
+    //           commands: ['cd my-service', 'npm ci'],
+    //         },
+    //         build: {
+    //           commands: ['npm run build'],
+    //         },
+    //       },
+    //       artifacts: {
+    //         'base-directory': 'my-service',
+    //         files: ['dist/**/*, node-modules/**/*'],
+    //       },
+    //     }),
+    //     environment: {
+    //       buildImage: codebuild.LinuxBuildImage.STANDARD_2_0,
+    //     },
+    //   }
+    // );
+    // const serviceBuildAction = new codepipelineActions.CodeBuildAction({
+    //   actionName: 'Service_Build',
+    //   input: sourceOutput,
+    //   project: serviceProject,
+    // });
+    // buildStage.addAction(serviceBuildAction);
 
     // Deploy stage
     const deployStage = pipeline.addStage({ stageName: 'Deploy' });
