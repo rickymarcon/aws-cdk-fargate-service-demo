@@ -107,6 +107,7 @@ export class EcsPipelineStack extends cdk.Stack {
         templatePath: cdkBuildOuput.atPath('EcsClusterStack.template.json'),
         stackName: 'EcsClusterDeploymentStack',
         adminPermissions: true,
+        extraInputs: [sourceOutput],
       }
     );
     deployStage.addAction(deployAction);
