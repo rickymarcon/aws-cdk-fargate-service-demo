@@ -10,3 +10,7 @@ cdk.out
 # Parcel build directories
 .cache
 .build
+
+# dotenv environment variables file
+.env
+.env.test
