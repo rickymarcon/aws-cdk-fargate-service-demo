@@ -9,7 +9,12 @@ dotenv.config();
 
 const app = new cdk.App();
 const cluster = new EcsClusterStack(app, 'EcsClusterStack', {
-  serviceId: 'my-service',
+  serviceId: process.env.SERVICE_ID,
 });
 
-new EcsPipelineStack(app, 'EcsPipelineStack', {});
+new EcsPipelineStack(app, 'EcsPipelineStack', {
+  oauthToken: process.env.GITHUB_TOKEN,
+  repoOwner: process.env.REPO_OWNER,
+  repoName: process.env.REPO_NAME,
+  branch: process.env.BRANCH,
+});
