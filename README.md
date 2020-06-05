@@ -9,6 +9,8 @@ This demo uses the AWS CDK to achieve the following:
 - Expose service with an internet-facing **Application Load Balancer**
 - Build a **CI/CD pipeline** to automate the entire process (using this GitHub repository as the source)
 
+![Architecture Diagram](https://rickymarcon-public.s3.eu-west-2.amazonaws.com/aws-cdk-ecs-cluster.png)
+
 ## Get started
 
 Install the CDK and dependencies first.
