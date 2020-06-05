@@ -46,6 +46,14 @@ cdk deploy EcsPipelineStack
 
 This will deploy just the `EcsPipelineStack` - which will then trigger the CI/CD pipeline to build the `EcsClusterStack` and deploy it to AWS.
 
+## Clean up
+
+To avoid unexpected AWS charges, destroy your AWS CDK stacks after you're done with this demo.
+
+```bash
+cdk destroy "*"
+```
+
 ## CDK Toolkit
 
 The [`cdk.json`](./cdk.json) file in the root of this repository includes
