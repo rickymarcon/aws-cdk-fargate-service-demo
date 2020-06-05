@@ -51,6 +51,9 @@ export class EcsPipelineStack extends cdk.Stack {
       }),
       environment: {
         buildImage: codebuild.LinuxBuildImage.STANDARD_2_0,
+        environmentVariables: {
+          SERVICE_ID: { value: process.env.SERVICE_ID },
+        },
       },
     });
     const cdkBuildAction = new codepipelineActions.CodeBuildAction({
@@ -93,6 +96,9 @@ export class EcsPipelineStack extends cdk.Stack {
         }),
         environment: {
           buildImage: codebuild.LinuxBuildImage.STANDARD_2_0,
+          environmentVariables: {
+            SERVICE_ID: { value: process.env.SERVICE_ID },
+          },
           privileged: true, // Enable Docker daemon inside container
         },
         role,
