@@ -50,7 +50,7 @@ export class EcsPipelineStack extends cdk.Stack {
         },
       }),
       environment: {
-        buildImage: codebuild.LinuxBuildImage.STANDARD_2_0,
+        buildImage: codebuild.LinuxBuildImage.STANDARD_1_0,
         privileged: true,
       },
     });
@@ -93,7 +93,7 @@ export class EcsPipelineStack extends cdk.Stack {
           },
         }),
         environment: {
-          buildImage: codebuild.LinuxBuildImage.STANDARD_2_0,
+          buildImage: codebuild.LinuxBuildImage.STANDARD_1_0,
           privileged: true,
         },
         role,
