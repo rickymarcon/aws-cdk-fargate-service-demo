@@ -24,7 +24,7 @@ export class EcsPipelineStack extends cdk.Stack {
       repo: process.env.REPO_NAME,
       branch: process.env.BRANCH,
       oauthToken,
-      trigger: codepipelineActions.GitHubTrigger.POLL,
+      trigger: codepipelineActions.GitHubTrigger.WEBHOOK,
       output: sourceOutput,
     });
     sourceStage.addAction(sourceAction);
@@ -51,7 +51,6 @@ export class EcsPipelineStack extends cdk.Stack {
       }),
       environment: {
         buildImage: codebuild.LinuxBuildImage.STANDARD_2_0,
-        privileged: true,
       },
     });
     const cdkBuildAction = new codepipelineActions.CodeBuildAction({
@@ -94,7 +93,7 @@ export class EcsPipelineStack extends cdk.Stack {
         }),
         environment: {
           buildImage: codebuild.LinuxBuildImage.STANDARD_2_0,
-          privileged: true,
+          privileged: true, // Enable Docker daemon inside container
         },
         role,
       }
