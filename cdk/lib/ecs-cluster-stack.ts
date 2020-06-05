@@ -19,13 +19,8 @@ export class EcsClusterStack extends cdk.Stack {
       directory: imageDirectory,
     });
 
-    const vpc = new ec2.Vpc(this, 'NamedVPC', {
-      maxAzs: 2,
-    });
-
-    const cluster = new ecs.Cluster(this, 'NamedCluster', {
-      vpc,
-    });
+    const vpc = new ec2.Vpc(this, 'NamedVPC', { maxAzs: 2 });
+    const cluster = new ecs.Cluster(this, 'NamedCluster', { vpc });
 
     // Create a load-balanced Fargate service and make it public
     const fargateService = new ecsPatterns.ApplicationLoadBalancedFargateService(
@@ -44,5 +39,15 @@ export class EcsClusterStack extends cdk.Stack {
         publicLoadBalancer: true,
       }
     );
+
+    // Setup AutoScaling policy
+    const scaling = fargateService.service.autoScaleTaskCount({
+      maxCapacity: 2,
+    });
+    scaling.scaleOnCpuUtilization('CpuScaling', {
+      targetUtilizationPercent: 50,
+      scaleInCooldown: cdk.Duration.seconds(60),
+      scaleOutCooldown: cdk.Duration.seconds(60),
+    });
   }
 }
