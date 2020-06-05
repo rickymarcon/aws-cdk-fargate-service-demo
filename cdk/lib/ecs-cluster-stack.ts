@@ -6,15 +6,11 @@ import * as ecr from '@aws-cdk/aws-ecr';
 import * as ecrAssets from '@aws-cdk/aws-ecr-assets';
 import * as path from 'path';
 
-interface EcsClusterStackProps extends cdk.StackProps {
-  serviceId: string;
-}
-
 export class EcsClusterStack extends cdk.Stack {
-  constructor(scope: cdk.Construct, id: string, props: EcsClusterStackProps) {
+  constructor(scope: cdk.Construct, id: string, props: cdk.StackProps) {
     super(scope, id, props);
 
-    const imageDirectory = path.resolve(`../${props.serviceId}`);
+    const imageDirectory = path.resolve(`../${process.env.SERVICE_ID}`);
     const asset = new ecrAssets.DockerImageAsset(this, 'NamedBuildImage', {
       directory: imageDirectory,
     });

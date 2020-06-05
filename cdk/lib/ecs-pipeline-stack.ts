@@ -4,15 +4,8 @@ import * as codepipeline from '@aws-cdk/aws-codepipeline';
 import * as codebuild from '@aws-cdk/aws-codebuild';
 import * as codepipelineActions from '@aws-cdk/aws-codepipeline-actions';
 
-interface EcsPipelineStackProps extends cdk.StackProps {
-  oauthToken: string;
-  repoOwner: string;
-  repoName: string;
-  branch: string;
-}
-
 export class EcsPipelineStack extends cdk.Stack {
-  constructor(scope: cdk.App, id: string, props: EcsPipelineStackProps) {
+  constructor(scope: cdk.App, id: string, props: cdk.StackProps) {
     super(scope, id, props);
 
     const pipeline = new codepipeline.Pipeline(this, 'Pipeline');
@@ -22,14 +15,14 @@ export class EcsPipelineStack extends cdk.Stack {
     const sourceOutput = new codepipeline.Artifact('SourceArtifact');
 
     // DON'T DO THIS IN PRODUCTION - USE SECRET MANAGER COMMENTED BELOW
-    const oauthToken = cdk.SecretValue.plainText(props.oauthToken);
+    const oauthToken = cdk.SecretValue.plainText(process.env.GITHUB_TOKEN);
     // const oauthToken = cdk.SecretValue.secretsManager('GITHUB_TOKEN');
 
     const sourceAction = new codepipelineActions.GitHubSourceAction({
       actionName: 'GitHub_Source',
-      owner: props.repoOwner,
-      repo: props.repoName,
-      branch: props.branch,
+      owner: process.env.REPO_OWNER,
+      repo: process.env.REPO_NAME,
+      branch: process.env.BRANCH,
       oauthToken,
       trigger: codepipelineActions.GitHubTrigger.POLL,
       output: sourceOutput,
