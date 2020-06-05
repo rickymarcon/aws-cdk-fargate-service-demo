@@ -49,16 +49,21 @@ describe('CDK ECS cluster', () => {
     );
   });
 
-  test('creates a task definition', () => {
-    expectCDK(stack).to(haveResource('AWS::ECS::TaskDefinition'));
-  });
+  describe('service', () => {
+    test('uses fargate launch type', () => {
+      expectCDK(stack).to(
+        haveResource('AWS::ECS::Service', {
+          LaunchType: 'FARGATE',
+        })
+      );
+    });
 
-  test('service is created', () => {
-    expectCDK(stack).to(
-      haveResource('AWS::ECS::Service', {
-        LaunchType: 'FARGATE',
-        DesiredCount: 1,
-      })
-    );
+    test('has 2 running task definitions', () => {
+      expectCDK(stack).to(
+        haveResource('AWS::ECS::Service', {
+          DesiredCount: 2,
+        })
+      );
+    });
   });
 });
