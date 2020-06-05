@@ -10,7 +10,11 @@ export class EcsClusterStack extends cdk.Stack {
   constructor(scope: cdk.Construct, id: string, props: cdk.StackProps) {
     super(scope, id, props);
 
-    const imageDirectory = path.resolve(`../${process.env.SERVICE_ID}`);
+    const imageDirectory = path.resolve(
+      process.cwd(),
+      '..',
+      process.env.SERVICE_ID
+    );
     const asset = new ecrAssets.DockerImageAsset(this, 'NamedBuildImage', {
       directory: imageDirectory,
     });
