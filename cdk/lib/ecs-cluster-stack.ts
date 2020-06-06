@@ -15,17 +15,17 @@ export class EcsClusterStack extends cdk.Stack {
       '..',
       process.env.SERVICE_ID
     );
-    const asset = new ecrAssets.DockerImageAsset(this, 'NamedBuildImage', {
+    const asset = new ecrAssets.DockerImageAsset(this, 'MyBuildImage', {
       directory: imageDirectory,
     });
 
-    const vpc = new ec2.Vpc(this, 'NamedVPC', { maxAzs: 2 });
-    const cluster = new ecs.Cluster(this, 'NamedCluster', { vpc });
+    const vpc = new ec2.Vpc(this, 'MyVPC', { maxAzs: 2 });
+    const cluster = new ecs.Cluster(this, 'MyCluster', { vpc });
 
     // Create a load-balanced Fargate service and make it public
     const fargateService = new ecsPatterns.ApplicationLoadBalancedFargateService(
       this,
-      'NamedFargateService',
+      'MyFargateService',
       {
         cluster,
         desiredCount: 2,

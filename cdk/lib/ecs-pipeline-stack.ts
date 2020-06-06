@@ -8,7 +8,9 @@ export class EcsPipelineStack extends cdk.Stack {
   constructor(scope: cdk.App, id: string, props: cdk.StackProps) {
     super(scope, id, props);
 
-    const pipeline = new codepipeline.Pipeline(this, 'Pipeline');
+    const pipeline = new codepipeline.Pipeline(this, 'Pipeline', {
+      pipelineName: 'MyEcsPipeline',
+    });
 
     // Source stage
     const sourceStage = pipeline.addStage({ stageName: 'Source' });
@@ -66,7 +68,7 @@ export class EcsPipelineStack extends cdk.Stack {
 
     // Deploy stage
     const deployStage = pipeline.addStage({ stageName: 'Deploy' });
-    const role = new iam.Role(this, 'MyRole', {
+    const role = new iam.Role(this, 'CdkCodeBuildRole', {
       assumedBy: new iam.ServicePrincipal('codebuild.amazonaws.com'),
     });
     role.addToPolicy(
@@ -109,7 +111,6 @@ export class EcsPipelineStack extends cdk.Stack {
       input: sourceOutput,
       project: deployProject,
     });
-
     deployStage.addAction(deployAction);
   }
 }
