@@ -1,6 +1,8 @@
-# [Demo] Creating a CI/CD pipeline for an AWS Fargate service using the AWS CDK
+# Creating a CI/CD pipeline for an AWS Fargate service using the AWS CDK
 
-This demo uses the AWS CDK to achieve the following:
+The [AWS Cloud Development Kit (AWS CDK)](https://github.com/aws/aws-cdk) is an open-source software development framework to define cloud infrastructure in code and provision it through AWS CloudFormation.
+
+This example uses the AWS CDK to achieve the following:
 
 - Dockerize `my-service` (a simple express server), and push it to **Amazon ECR**
 - Create a **VPC** with 2 AZs (Availability Zones)
@@ -74,3 +76,7 @@ After building your TypeScript code, you will be able to run the CDK toolkits co
 
     $ cdk diff
     <shows diff against deployed stack>
+
+## More Resources
+
+See [aws-samples/aws-cdk-examples](https://github.com/aws-samples/aws-cdk-examples#TypeScript) for more example projects using the AWS CDK.
