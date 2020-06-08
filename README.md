@@ -29,7 +29,12 @@ npm install
 mv .env.sample .env
 ```
 
-Note: A [GitHub personal access token](<(https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line)>) is needed for the CI server to pull from your repo.
+### Github Access Token
+
+A [GitHub personal access token](<(https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line)>) is required for the CI server to pull from your repo. To configure a personal access token:
+
+1. Generate a Github access token for yourself: https://github.com/settings/tokens
+2. Add the token to the `GITHUB_TOKEN` environment variable in [`cdk/.env`](./cdk/.env):
 
 ## Build
 
