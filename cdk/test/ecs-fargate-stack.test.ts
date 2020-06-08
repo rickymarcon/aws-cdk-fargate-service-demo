@@ -1,6 +1,6 @@
 import { expect as expectCDK, haveResource } from '@aws-cdk/assert';
 import * as cdk from '@aws-cdk/core';
-import { EcsClusterStack } from '../lib/ecs-cluster-stack';
+import { EcsFargateStack } from '../lib/ecs-fargate-stack';
 
 describe('CDK ECS cluster', () => {
   let app: cdk.App;
@@ -8,7 +8,7 @@ describe('CDK ECS cluster', () => {
 
   beforeAll(() => {
     app = new cdk.App();
-    stack = new EcsClusterStack(app, 'EcsClusterStack', {});
+    stack = new EcsFargateStack(app, 'EcsFargateStack', {});
   });
 
   test('creates a VPC with cidr 10.0.0.0/16', () => {

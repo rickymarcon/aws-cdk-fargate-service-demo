@@ -1,8 +1,8 @@
 {
-  "name": "aws-cdk-ecs-cluster",
+  "name": "aws-cdk-fargate-service-demo",
   "version": "0.1.0",
   "bin": {
-    "ecs-cluster": "bin/ecs-cluster.js"
+    "ecs-fargate-app": "bin/ecs-fargate-app.js"
   },
   "scripts": {
     "build": "tsc",

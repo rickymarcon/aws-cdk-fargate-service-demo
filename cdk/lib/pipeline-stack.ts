@@ -4,12 +4,12 @@ import * as codepipeline from '@aws-cdk/aws-codepipeline';
 import * as codebuild from '@aws-cdk/aws-codebuild';
 import * as codepipelineActions from '@aws-cdk/aws-codepipeline-actions';
 
-export class EcsPipelineStack extends cdk.Stack {
+export class PipelineStack extends cdk.Stack {
   constructor(scope: cdk.App, id: string, props: cdk.StackProps) {
     super(scope, id, props);
 
     const pipeline = new codepipeline.Pipeline(this, 'Pipeline', {
-      pipelineName: 'MyEcsPipeline',
+      pipelineName: 'MyPipeline',
     });
 
     // Source stage
@@ -48,7 +48,7 @@ export class EcsPipelineStack extends cdk.Stack {
         },
         artifacts: {
           'base-directory': 'cdk/cdk.out',
-          files: ['EcsClusterStack.template.json'],
+          files: ['EcsFargateStack.template.json'],
         },
       }),
       environment: {
@@ -91,7 +91,7 @@ export class EcsPipelineStack extends cdk.Stack {
               commands: [
                 'npm run build',
                 'npm run cdk synth',
-                'npm run cdk deploy EcsClusterStack -- --require-approval never',
+                'npm run cdk deploy EcsFargateStack -- --require-approval never',
               ],
             },
           },

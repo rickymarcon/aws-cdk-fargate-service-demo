@@ -50,10 +50,10 @@ cdk synth
 ## Deploy
 
 ```bash
-cdk deploy EcsPipelineStack
+cdk deploy PipelineStack
 ```
 
-This will deploy just the `EcsPipelineStack` - which will then trigger the CI/CD pipeline to build the `EcsClusterStack` and deploy it to AWS.
+This will deploy just the `PipelineStack` - which will then trigger the CI/CD pipeline to build the `EcsFargateStack` and deploy it to AWS.
 
 ## Clean up
 

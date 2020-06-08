@@ -6,17 +6,13 @@ import * as ecr from '@aws-cdk/aws-ecr';
 import * as ecrAssets from '@aws-cdk/aws-ecr-assets';
 import * as path from 'path';
 
-export class EcsClusterStack extends cdk.Stack {
+export class EcsFargateStack extends cdk.Stack {
   constructor(scope: cdk.Construct, id: string, props: cdk.StackProps) {
     super(scope, id, props);
 
-    const imageDirectory = path.resolve(
-      process.cwd(),
-      '..',
-      process.env.SERVICE_ID
-    );
+    const directory = path.resolve(process.cwd(), '..', process.env.SERVICE_ID);
     const asset = new ecrAssets.DockerImageAsset(this, 'MyBuildImage', {
-      directory: imageDirectory,
+      directory,
     });
 
     const vpc = new ec2.Vpc(this, 'MyVPC', { maxAzs: 2 });
@@ -36,7 +32,7 @@ export class EcsClusterStack extends cdk.Stack {
           enableLogging: true, // default
           containerPort: 80, // default
         },
-        publicLoadBalancer: true,
+        publicLoadBalancer: true, // default
       }
     );
 
